@@ -9,3 +9,4 @@ avathi-327311-5e77d44d5b03.json
 
 # Ignore CSV files (optional, if you don’t want to share data files)
 *.csv
+.env
