@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 
 # https://developers.google.com/search/apis/indexing-api/v3/prereqs#header_2
-JSON_KEY_FILE = r"C:\Users\suppo\Desktop\avathi_chatbot\app\models\avathi-327311-5e77d44d5b03.json"
+JSON_KEY_FILE = r"avathi-327311-5e77d44d5b03.json"
 SCOPES = ["https://www.googleapis.com/auth/indexing"]
 
 credentials = ServiceAccountCredentials.from_json_keyfile_name(JSON_KEY_FILE, scopes=SCOPES)
@@ -42,10 +42,10 @@ def indexURL(urls, http):
 data.csv has 2 columns: URL and date.
 I just need the URL column.
 """
-csv = pd.read_csv(r'C:\Users\suppo\Desktop\avathi_chatbot\app\models\data.csv')
+csv = pd.read_csv(r"data.csv")
 
 
-csv_data=csv.iloc[0:1]
+csv_data=csv.iloc[200:205]
 # print(csv_data)
 # sys.exit()
 csv_data[["URL"]].apply(lambda x: indexURL(x, http))
