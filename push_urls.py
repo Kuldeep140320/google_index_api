@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 
 # https://developers.google.com/search/apis/indexing-api/v3/prereqs#header_2
-JSON_KEY_FILE = r"C:\Users\suppo\Desktop\avathi_chatbot\app\models\avathi-327311-5e77d44d5b03.json"
+JSON_KEY_FILE = r"avathi-327311-5e77d44d5b03.json"
 SCOPES = ["https://www.googleapis.com/auth/indexing"]
 
 credentials = ServiceAccountCredentials.from_json_keyfile_name(JSON_KEY_FILE, scopes=SCOPES)
@@ -33,19 +33,40 @@ def indexURL(urls, http):
         if("error" in result):
             print("Error({} - {}): {}".format(result["error"]["code"], result["error"]["status"], result["error"]["message"]))
         else:
-            print("urlNotificationMetadata.url: {}".format(result["urlNotificationMetadata"]["url"]))
-            print("urlNotificationMetadata.latestUpdate.url: {}".format(result["urlNotificationMetadata"]["latestUpdate"]["url"]))
-            print("urlNotificationMetadata.latestUpdate.type: {}".format(result["urlNotificationMetadata"]["latestUpdate"]["type"]))
-            print("urlNotificationMetadata.latestUpdate.notifyTime: {}".format(result["urlNotificationMetadata"]["latestUpdate"]["notifyTime"]))
-
+            if 'urlNotificationMetadata' in result:
+                print("Success: URL successfully submitted for indexing.")
+                print(f"Submitted URL: {result['urlNotificationMetadata'].get('url', 'N/A')}")
+                if 'latestUpdate' in result['urlNotificationMetadata']:
+                    latest_update = result['urlNotificationMetadata']['latestUpdate']
+                    print(f"Update type: {latest_update.get('type', 'N/A')}")
+                    print(f"Notification time: {latest_update.get('notifyTime', 'N/A')}")
+                else:
+                    print("Note: No 'latestUpdate' information available in the response.")
+            else:
+                print("Warning: URL submitted, but no metadata received in the response.")
+            
+        print(f"Full API response: {json.dumps(result, indent=2)}")
 """
 data.csv has 2 columns: URL and date.
 I just need the URL column.
 """
-csv = pd.read_csv(r'C:\Users\suppo\Desktop\avathi_chatbot\app\models\data.csv')
+# csv = pd.read_csv(r"data.csv")
+
+# original_csv = pd.read_csv(r"data.csv")
+# new_csv = pd.read_csv(r"Table 1.csv")
+# # new row=new_csv-csv
+# deduplicated_csv = new_csv[~new_csv['URL'].isin(original_csv['URL'])]
+# deduplicated_csv.to_csv("Deduplicated_Table.csv", index=False)
+csv = pd.read_csv(r"url_list.csv")  
+# csv = pd.read_csv(r"Deduplicated_Table.csv")
 
 
-csv_data=csv.iloc[0:1]
+csv_data=csv.iloc[:100]
+
+# csv_data=csv.iloc[:1]
 # print(csv_data)
+# sys.exit()
+# csv_data=csv.iloc[2650:2850]
+# print(csv_data) 4318 place
 # sys.exit()
 csv_data[["URL"]].apply(lambda x: indexURL(x, http))
