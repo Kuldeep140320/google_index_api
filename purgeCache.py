@@ -74,6 +74,7 @@ def main():
             all_urls.extend(urls)
 
         print(f"Total URLs extracted: {len(all_urls)}")
+        api_token='gumlet_0cb2ec7efddbd39dbe9836413faa9bde'
         chunk_size = 50  # Set a limit on how many URLs per request, adjust as needed
         for i in range(0, len(all_urls), chunk_size):
             purge_cache(all_urls[i:i+chunk_size], api_token)

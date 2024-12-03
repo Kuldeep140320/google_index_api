@@ -61,12 +61,10 @@ csv = pd.read_csv(r"url_list.csv")
 # csv = pd.read_csv(r"Deduplicated_Table.csv")
 
 
-csv_data=csv.iloc[:100]
+csv_data=csv.iloc[1300:1500]
 
-# csv_data=csv.iloc[:1]
+ 
 # print(csv_data)
 # sys.exit()
-# csv_data=csv.iloc[2650:2850]
-# print(csv_data) 4318 place
-# sys.exit()
+ 
 csv_data[["URL"]].apply(lambda x: indexURL(x, http))
