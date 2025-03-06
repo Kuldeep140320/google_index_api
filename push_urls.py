@@ -61,7 +61,7 @@ csv = pd.read_csv(r"url_list.csv")
 # csv = pd.read_csv(r"Deduplicated_Table.csv")
 
 
-csv_data=csv.iloc[:100]
+csv_data=csv.iloc[300:500]
 
 # csv_data=csv.iloc[:1]
 # print(csv_data)
